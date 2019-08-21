@@ -1,5 +1,13 @@
 # My Emacs cheat sheet
 
+## Insertion
+
+- Insert same character n times
+
+```
+C-u 80 k
+```
+
 ## Git
 
 - Diff buffer with previous revision
