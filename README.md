@@ -51,3 +51,24 @@ C-x r k
 ```
 M-x string-insert-rectangle
 ```
+
+## Themes
+
+- Select a theme interactively
+
+```
+M-x customize-themes
+```
+
+- Display and modify a custom theme
+
+```
+custom-theme-visit-theme
+```
+
+- Set a cutom variable that is defined with the macro ***defcustom*** in a
+  package for instance.
+
+```
+(custom-set-variables '(solarized-distinct-fringe-background t))
+```
