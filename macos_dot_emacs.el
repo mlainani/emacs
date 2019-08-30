@@ -180,7 +180,7 @@ There are two things you can do about this warning:
     ("8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" default)))
  '(display-time-mode t)
  '(electric-pair-mode nil)
- '(flycheck-cppcheck-checks (quote ("style" "port" "performance")))
+ '(flycheck-cppcheck-checks (quote ("style" "portability" "performance")))
  '(package-selected-packages
    (quote
     (indent-tools hydra racer flycheck-rust cargo company-racer flymd markdown-preview-mode markdown-mode php-mode exec-path-from-shell autopair elpy use-package yaml-mode cmake-mode dts-mode xcscope fill-column-indicator solarized-theme rust-mode)))
