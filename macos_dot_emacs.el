@@ -10,8 +10,8 @@ There are two things you can do about this warning:
 1. Install an Emacs version that does support SSL and be safe.
 2. Remove this warning from your init file so you won't see it again."))
   ;; Comment/uncomment these two lines to enable/disable MELPA and MELPA Stable as desired
-  ;; (add-to-list 'package-archives (cons "melpa" (concat proto "://melpa.org/packages/")) t)
-  (add-to-list 'package-archives (cons "melpa-stable" (concat proto "://stable.melpa.org/packages/")) t)
+  (add-to-list 'package-archives (cons "melpa" (concat proto "://melpa.org/packages/")) t)
+  ;; (add-to-list 'package-archives (cons "melpa-stable" (concat proto "://stable.melpa.org/packages/")) t)
   (when (< emacs-major-version 24)
     ;; For important compatibility libraries like cl-lib
     (add-to-list 'package-archives (cons "gnu" (concat proto "://elpa.gnu.org/packages/")))))
@@ -92,23 +92,7 @@ There are two things you can do about this warning:
 
 ;; (load-file user-init-file)
 ;; (load-file custom-file)
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(column-number-mode t)
- '(custom-safe-themes
-   (quote
-    ("8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" default)))
- '(display-time-mode t)
- '(electric-pair-mode t)
- '(package-selected-packages
-   (quote
-    (racer flycheck-rust cargo company-racer flymd markdown-preview-mode markdown-mode php-mode exec-path-from-shell autopair elpy use-package yaml-mode cmake-mode dts-mode xcscope fill-column-indicator solarized-theme rust-mode)))
- '(show-paren-mode t)
- '(solarized-distinct-fringe-background t)
- '(tool-bar-mode nil))
+
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -120,6 +104,7 @@ There are two things you can do about this warning:
 (elpy-enable)
 
 (exec-path-from-shell-initialize)
+
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -163,9 +148,42 @@ There are two things you can do about this warning:
 
 (add-hook 'flycheck-mode-hook #'flycheck-rust-setup)
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Hydra                                                                    ;;; 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(defhydra hydra-zoom (global-map "<f2>")
+  "zoom"
+  ("g" text-scale-increase "in")
+  ("l" text-scale-decrease "out"))
+
+(require 'indent-tools)
+(global-set-key (kbd "C-c .") 'indent-tools-hydra/body)
+
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Themes                                                                   ;;; 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(custom-set-variables '(solarized-distinct-fringe-background t))
+
+
+(setq-default electric-pair-inhibit-predicate 'electric-pair-conservative-inhibit)
+(electric-pair-mode 1)
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(column-number-mode t)
+ '(custom-safe-themes
+   (quote
+    ("8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" default)))
+ '(display-time-mode t)
+ '(electric-pair-mode nil)
+ '(flycheck-cppcheck-checks (quote ("style" "port" "performance")))
+ '(package-selected-packages
+   (quote
+    (indent-tools hydra racer flycheck-rust cargo company-racer flymd markdown-preview-mode markdown-mode php-mode exec-path-from-shell autopair elpy use-package yaml-mode cmake-mode dts-mode xcscope fill-column-indicator solarized-theme rust-mode)))
+ '(show-paren-mode t)
+ '(solarized-distinct-fringe-background t)
+ '(tool-bar-mode nil))
