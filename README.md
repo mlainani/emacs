@@ -1,5 +1,13 @@
 # My Emacs cheat sheet
 
+## Comment
+
+- Comment a region in any major mode
+
+```
+M-;
+```
+
 ## Insertion
 
 - Insert same character n times
