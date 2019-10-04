@@ -38,6 +38,11 @@ or on macOS
 C-command s
 ```
 
+## Delete search-matching lines
+```
+M-x delete-matching-lines
+```
+
 ## Code Base Navigation
 
 - Jump to Etags definition in a different frame
