@@ -38,9 +38,21 @@ or on macOS
 C-command s
 ```
 
-## Delete search-matching lines
+- Delete search-matching lines
 ```
 M-x delete-matching-lines
+```
+
+- Replace special character (e.g. ^M) with nothing
+
+```
+M-x replace-string C-q C-m RET RET
+```
+
+- Replace with Carriage Return
+
+```
+C-q C-j
 ```
 
 ## Code Base Navigation
