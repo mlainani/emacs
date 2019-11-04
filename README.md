@@ -55,6 +55,18 @@ M-x replace-string C-q C-m RET RET
 C-q C-j
 ```
 
+- Navigate the search history for the previous or next expression
+
+```
+M-p
+```
+
+or
+
+```
+M-n
+```
+
 ## Code Base Navigation
 
 - Jump to Etags definition in a different frame
