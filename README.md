@@ -1,5 +1,15 @@
 # My Emacs cheat sheet
 
+## Modes
+
+- Find out about the major mode and all enabled minor modes for the active
+  buffer. This provides, amongst other information, all the key bindings for the
+  modes.
+
+```
+C-h m
+```
+
 ## Comment
 
 - Comment a region in any major mode
