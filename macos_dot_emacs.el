@@ -44,7 +44,7 @@ There are two things you can do about this warning:
 (show-paren-mode t)
 (which-function-mode t)
 
-;; Setting relevant only if running in a windowing system 
+;; Setting relevant only if running in a windowing system
 ;; (if (display-graphic-p)
 ;;     (ns-toggle-toolbar)
 ;;   )
@@ -69,8 +69,12 @@ There are two things you can do about this warning:
 
 (add-to-list 'auto-mode-alist '("defconfig\\'" . conf-mode))
 
+;; kconfig-mode
+;; (require 'kconfig-mode)
+;; (add-to-list 'auto-mode-alist '("\\.board\\'" . kconfig-mode)
+
 ;; Look for a regex at the beginning of file
-(add-to-list 'magic-mode-alist '("# Kconfig.+" . conf-mode))
+;; (add-to-list 'magic-mode-alist '("# Kconfig.+" . kconfig-mode))
 
 
 ;; Define keyboard shortcut for running compilation
@@ -98,7 +102,8 @@ There are two things you can do about this warning:
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(font-lock-doc-face ((t (:foreground "#93a1a1" :slant normal)))))
+ '(font-lock-doc-face ((t (:foreground "#93a1a1" :slant normal))))
+ '(lsp-ui-doc-background ((t (:background "#efe8d6")))))
 
 (package-initialize)
 (elpy-enable)
@@ -122,31 +127,49 @@ There are two things you can do about this warning:
 
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Use FlyCheck for all prog-mode-derived major modes                        ;;
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(use-package flycheck
+  :hook (prog-mode . flycheck-mode))
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Rust                                                                     ;;; 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(add-hook 'rust-mode-hook #'racer-mode)
-(add-hook 'rust-mode-hook 'electric-pair-mode)
-(add-hook 'rust-mode-hook 'cargo-minor-mode)
+(use-package lsp-mode
+  :hook (rust-mode . lsp)
+  :commands lsp)
+
+(use-package lsp-ui :commands lsp-ui-mode)
+(use-package company-lsp :commands company-lsp)
+
+(use-package cargo
+  :hook (rust-mode . cargo-minor-mode))
+
+;; (require 'lsp-mode)
+;; (add-hook 'rust-mode-hook #'lsp)
+
+;; (add-hook 'rust-mode-hook #'racer-mode)
+;; (add-hook 'rust-mode-hook 'electric-pair-mode)
+;; (add-hook 'rust-mode-hook 'cargo-minor-mode)
 
 ;; Indent current buffer with C-c <tab> (relies on rustfmt)
-(add-hook 'rust-mode-hook
-          (lambda ()
-            (local-set-key (kbd "C-c <tab>") #'rust-format-buffer)))
+;; (add-hook 'rust-mode-hook
+;;           (lambda ()
+;;             (local-set-key (kbd "C-c <tab>") #'rust-format-buffer)))
 
-(add-hook 'racer-mode-hook #'eldoc-mode)
-(add-hook 'racer-mode-hook #'company-mode)
+;; (add-hook 'racer-mode-hook #'eldoc-mode)
+;; (add-hook 'racer-mode-hook #'company-mode)
 
-(require 'rust-mode)
-(define-key rust-mode-map (kbd "TAB") #'company-indent-or-complete-common)
-(setq company-tooltip-align-annotations t)
+;; (require 'rust-mode)
+;; (define-key rust-mode-map (kbd "TAB") #'company-indent-or-complete-common)
+;; (setq company-tooltip-align-annotations t)
 
+;; (with-eval-after-load 'rust-mode
+;;   (add-hook 'flycheck-mode-hook #'flycheck-rust-setup))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; Flycheck                                                                 ;;; 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(add-hook 'flycheck-mode-hook #'flycheck-rust-setup)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Hydra                                                                    ;;; 
@@ -175,15 +198,22 @@ There are two things you can do about this warning:
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(column-number-mode t)
+ '(comment-multi-line t)
  '(custom-safe-themes
    (quote
     ("8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" default)))
  '(display-time-mode t)
  '(electric-pair-mode nil)
  '(flycheck-cppcheck-checks (quote ("style" "portability" "performance")))
+ '(lsp-prefer-flymake nil)
  '(package-selected-packages
    (quote
-    (indent-tools hydra racer flycheck-rust cargo company-racer flymd markdown-preview-mode markdown-mode php-mode exec-path-from-shell autopair elpy use-package yaml-mode cmake-mode dts-mode xcscope fill-column-indicator solarized-theme rust-mode)))
+    (company-lsp lsp-ui lsp-mode kconfig-mode yang-mode indent-tools hydra racer flycheck-rust cargo company-racer flymd markdown-preview-mode markdown-mode php-mode exec-path-from-shell autopair elpy use-package yaml-mode cmake-mode dts-mode xcscope fill-column-indicator solarized-theme rust-mode)))
  '(show-paren-mode t)
  '(solarized-distinct-fringe-background t)
  '(tool-bar-mode nil))
+
+(setq comment-style 'multi-line)
+(setq comment-style 'extra-line)
+
+
